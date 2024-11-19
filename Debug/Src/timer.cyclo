@@ -1,7 +1,7 @@
 core_cm4.h:1816:22:__NVIC_SetPriority	2
 core_cm4.h:2022:26:SysTick_Config	2
-timer.c:12:6:SYSTICK_Init	1
-timer.c:20:6:SYSTICK_Delay	2
-timer.c:27:10:SYSTICK_Get	1
-timer.c:35:6:DWT_Init	1
-timer.c:47:6:DWT_Delay	5
+timer.c:13:6:SYSTICK_Init	1
+timer.c:21:6:SYSTICK_Delay	2
+timer.c:28:10:SYSTICK_Get	1
+timer.c:36:6:DWT_Init	1
+timer.c:48:6:DWT_Delay	5

@@ -4,11 +4,21 @@
 #include "interrupt.h"
 
 extern uint32_t ticks;
+extern uint32_t ticks_tim2;
 
 // Interrupt Handler for SysTick Interrupt
 void SysTick_Handler(void){
 	ticks++;
 }
+
+void TIM2_IRQHandler(void){
+	if (TIM2->SR & TIM_SR_UIF){
+		TIM2->SR &= ~TIM_SR_UIF;
+		ticks_tim2++;
+	}
+}
+
+
 
 //////////////// HOW TO SETUP INTERUPT ? ///////////
 	// 1. Activate the NVIC IT :  NVIC_EnableIRQ().

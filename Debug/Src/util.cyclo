@@ -2,3 +2,4 @@ util.c:9:5:__io_putchar	1
 util.c:15:5:__io_getchar	1
 util.c:20:6:SCANF_Init	1
 util.c:24:6:FPU_Init	1
+util.c:28:9:masque_8bit	1

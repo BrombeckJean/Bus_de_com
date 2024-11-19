@@ -4,6 +4,7 @@
 
 uint32_t SystemCoreClock = 16000000;
 uint32_t ticks = 0;
+uint32_t ticks_tim2 = 0;
 
 //////////////////////////////////////////////
 ////////////// SYSTICK TIMER /////////////////
@@ -58,7 +59,6 @@ void DWT_Delay(uint32_t _us)
         while (DWT->CYCCNT > startTick || DWT->CYCCNT < targetTick);
 
 }
-
 
 
 // Get MCO HSE to PA8 (D7)

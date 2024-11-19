@@ -1,33 +1,21 @@
 /********************************************************************************
-  * @file           : main.h
-  * @brief          : Main function
+  * @file           : ds18b20.h
+  * @brief          : Captor Humidity and temperature
   *******************************************************************************/
 
 //------------------ INCLUDE -------------------------------------------------------------------------------- INCLUDE ----------------------------------------------------------*/
-#include "ds18b20.h"
+#include "usart.h"
+#include "one_wire.h"
 
 //----------------- SPECIAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ SPECIAL DEFINE -------------------------------------------------*/
-#ifndef MAIN_H_
-#define MAIN_H_
+#ifndef DEVICES_DS18B20_ONEWIRE_DS18B20_H_
+#define DEVICES_DS18B20_ONEWIRE_DS18B20_H_
 
-//----------------- DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ DEFINE ---------------------------------------------------------*/
-#define INPUT_MODE 	0
-#define OUTPUT_MODE	1
-#define ALT_MODE 	2
-#define ANALOG_MODE	3
+//----------------- PROTOTYPE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PROTOTYPE ------------------------------------------------------*/
+void Ds18b20_Init(GPIO_TypeDef * GPIOX, uint8_t pin);
+uint8_t Ds18b20_Is_Connected(void);
+int32_t Ds18b20_Read_Temp(void);
 
-#define OUTPUT_PUSH_PULL 	0
-#define OUTPUT_OPEN_DRAIN	1
-
-#define NO_PULL 	0
-#define PULL_UP		1
-#define PULL_DOWN 	2
-
-#define BITMASK_1BITS	0b1
-#define BITMASK_2BITS	0b11
-#define BITMASK_3BITS	0b111
-#define BITMASK_4BITS	0b1111
-#define BITMASK_5BITS	0b11111
 
 //----------------- END SPECIAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ END SPECIAL DEFINE ---------------------------------------------*/
-#endif
+#endif /* DEVICES_DS18B20_ONEWIRE_DS18B20_H_ */

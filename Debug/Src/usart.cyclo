@@ -1,3 +1,0 @@
-usart.c:7:6:USART2_Init	1
-usart.c:20:6:USART2_TransmitChar	2
-usart.c:26:9:USART2_ReceiveChar	2

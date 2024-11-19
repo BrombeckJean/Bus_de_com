@@ -24,3 +24,10 @@ void SCANF_Init(void){
 void FPU_Init(void){
 	SCB->CPACR |= ((3UL << 20U)|(3UL << 22U));
 }
+
+uint8_t masque_8bit (uint8_t num_mask)
+{
+    uint8_t val = 0;
+    val = 1 << (num_mask -1);
+    return val;
+}

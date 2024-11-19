@@ -11,6 +11,10 @@ RM := rm -rf
 -include sources.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
+-include Peripherals/Usart/subdir.mk
+-include Peripherals/ONEWIRE/subdir.mk
+-include Peripherals/Gpio/subdir.mk
+-include Peripherals/Devices/DS18B20_OneWire/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
