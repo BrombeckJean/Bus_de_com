@@ -36,18 +36,20 @@ uint8_t Ds18b20_Is_Connected(void)
 }
 
 //----------------- DS18B20 READ TEMP ------------------------------------------------------------------------------- DS18B20 READ TEMP ------------------------------------------------------*/
-int32_t Ds18b20_Read_Temp(void)
+void Ds18b20_Read_Temp(uint8_t Tab_val[9])
 {
     ONEWIRE_Reset(PINOUT);
     ONEWIRE_WriteByte(PINOUT,0xCC);
     ONEWIRE_WriteByte(PINOUT,0x44);
-    TIM2TICK_Delay(10);
+    DWT_Delay(10);
 
     ONEWIRE_Reset(PINOUT);
     ONEWIRE_WriteByte(PINOUT,0xCC);
     ONEWIRE_WriteByte(PINOUT,0xBE);
-    ONEWIRE_ReadByte (PINOUT);
-	return 0;
+    for(int i = 0; i < 8; i++)
+    {
+    	Tab_val[i] = ONEWIRE_ReadByte (PINOUT);
+    }
 }
 
 /* --- EOF ------------------------------------------------------------------ */

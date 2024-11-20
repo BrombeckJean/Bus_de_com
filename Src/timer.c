@@ -61,6 +61,39 @@ void DWT_Delay(uint32_t _us)
 }
 
 
+void TIM2TICK_Init(void){
+	/* Clock Activation */
+	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+
+	/* Interruption */
+	NVIC_EnableIRQ( TIM2_IRQn );
+
+	/* Configuration Periph*/
+	TIM2->PSC  = 15999;		// 1Khz en sortie du prescaler (16 MHz / (PSC + 1) = 1 kHz)
+	TIM2->ARR  = 60000; 	// 1 kHz * 60,000 = 60 secondes
+    TIM2->CNT = 0;    		// Réinitialiser le compteur
+	TIM2->DIER |= TIM_DIER_UIE;
+	TIM2->CR1  |= TIM_CR1_CEN;
+
+	TIM2->SR &= ~TIM_SR_UIF;
+}
+
+/**
+ * Millisecond delays with Systick Timer, blocking function
+ * @param delay : milliseconds to wait
+ */
+void TIM2TICK_Delay(uint32_t Delay)
+{
+	  uint32_t tickstart = TIM2TICK_Get();
+
+	  while((TIM2TICK_Get() - tickstart) < Delay);
+}
+
+uint32_t TIM2TICK_Get(void){
+	return ticks;
+}
+
+
 // Get MCO HSE to PA8 (D7)
 // the MCO1PRE[2:0] and MCO1[1:0]
 

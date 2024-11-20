@@ -5,6 +5,7 @@
 
 extern uint32_t ticks;
 extern uint32_t ticks_tim2;
+extern uint8_t Flag;
 
 // Interrupt Handler for SysTick Interrupt
 void SysTick_Handler(void){
@@ -14,7 +15,7 @@ void SysTick_Handler(void){
 void TIM2_IRQHandler(void){
 	if (TIM2->SR & TIM_SR_UIF){
 		TIM2->SR &= ~TIM_SR_UIF;
-		ticks_tim2++;
+		Flag = 1;
 	}
 }
 

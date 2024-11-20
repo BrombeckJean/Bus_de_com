@@ -91,7 +91,7 @@ uint8_t ONEWIRE_ReadByte(ONEWIRE_PINOUT oneWire_Pinout)
 
     for(int i = 0; i < 8; i++)
     {
-         value = (ONEWIRE_ReadBit(oneWire_Pinout) | MASQUE(i)) + value;
+         value |= (ONEWIRE_ReadBit(oneWire_Pinout)<<i);
     }
     return value;
 }

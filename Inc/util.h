@@ -8,7 +8,7 @@
 #define UTIL_H_
 
 //----------------- DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ DEFINE ---------------------------------------------------------*/
-#define MASQUE(NUM_MASK)   (1<<(NUM_MASK-1))
+#define MASQUE(NUM_MASK)   (1<<(NUM_MASK))
 
 #define SETS_BIT(REG, BIT)     ((REG) |= (BIT))
 #define CLEARS_BIT(REG, BIT)   ((REG) &= ~(BIT))
