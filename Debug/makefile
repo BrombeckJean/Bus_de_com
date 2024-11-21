@@ -9,12 +9,13 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Startup/subdir.mk
--include Src/subdir.mk
--include Peripherals/Usart/subdir.mk
--include Peripherals/ONEWIRE/subdir.mk
--include Peripherals/Gpio/subdir.mk
--include Peripherals/Devices/DS18B20_OneWire/subdir.mk
+-include 6_Startup/subdir.mk
+-include 5_Peripherals/Usart/subdir.mk
+-include 5_Peripherals/Timer/subdir.mk
+-include 5_Peripherals/ONEWIRE/subdir.mk
+-include 5_Peripherals/Gpio/subdir.mk
+-include 5_Peripherals/Devices/DS18B20_OneWire/subdir.mk
+-include 4_Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

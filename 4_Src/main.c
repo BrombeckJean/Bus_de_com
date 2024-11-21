@@ -19,8 +19,6 @@ ONEWIRE_PINOUT	PINOUT;
 int main(void)
 {
 
-
-	{
 #if TEST_3
 	uint8_t TH = 25;
 	uint8_t TL = 18;

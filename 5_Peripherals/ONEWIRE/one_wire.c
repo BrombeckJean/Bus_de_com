@@ -12,15 +12,15 @@ uint8_t ONEWIRE_Reset(ONEWIRE_PINOUT oneWire_Pinout)
     uint8_t reset_status = 0;
 
  /* Niveau de tension bas */
-    GPIO_ResetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(480);
 
  /* Niveau de tension haut */
-    GPIO_SetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(70);
 
  /* Lecture du niveau */
-    reset_status = GPIO_ReadPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    reset_status = GPIO_Read_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(410);
 
     return reset_status;
@@ -30,11 +30,11 @@ uint8_t ONEWIRE_Reset(ONEWIRE_PINOUT oneWire_Pinout)
 void ONEWIRE_WriteBit0(ONEWIRE_PINOUT oneWire_Pinout)
 {
  /* Niveau de tension bas */
-    GPIO_ResetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(60);
 
  /* Niveau de tension haut */
-    GPIO_SetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(10);
 }
 
@@ -42,11 +42,11 @@ void ONEWIRE_WriteBit0(ONEWIRE_PINOUT oneWire_Pinout)
 void ONEWIRE_WriteBit1(ONEWIRE_PINOUT oneWire_Pinout)
 {
  /* Niveau de tension bas */
-    GPIO_ResetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(6);
 
  /* Niveau de tension haut */
-    GPIO_SetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(64);
 }
 
@@ -70,15 +70,15 @@ uint8_t ONEWIRE_ReadBit(ONEWIRE_PINOUT oneWire_Pinout)
     uint8_t value = 0;
 
  /* Niveau de tension bas */
-    GPIO_ResetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(6);
 
  /* Niveau de tension haut */
-    GPIO_SetPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(9);
 
     /* Lecture du niveau */
-    value = GPIO_ReadPin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    value = GPIO_Read_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(55);
 
     return value;

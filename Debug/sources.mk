@@ -22,10 +22,11 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Peripherals/Devices/DS18B20_OneWire \
-Peripherals/Gpio \
-Peripherals/ONEWIRE \
-Peripherals/Usart \
-Src \
-Startup \
+4_Src \
+5_Peripherals/Devices/DS18B20_OneWire \
+5_Peripherals/Gpio \
+5_Peripherals/ONEWIRE \
+5_Peripherals/Timer \
+5_Peripherals/Usart \
+6_Startup \
 

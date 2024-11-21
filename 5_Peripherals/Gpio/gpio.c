@@ -7,22 +7,6 @@
 #include "gpio.h"
 #include "Option_comp.h"
 
-//----------------- LOCAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LOCAL DEFINE ---------------------------------------------------*/
-/* Values MODER Register */
-#define INPUT_MODE 	0
-#define OUTPUT_MODE	1
-#define ALT_MODE 	2
-#define ANALOG_MODE	3
-
-/* Values OTYPER Register */
-#define OUTPUT_PUSH_PULL 	0
-#define OUTPUT_OPEN_DRAIN	1
-
-/* Values PUPDR Register */
-#define NO_PULL 	0
-#define PULL_UP		1
-#define PULL_DOWN 	2
-
 //----------------- GPIO INIT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GPIO INIT ------------------------------------------------------*/
 /* @brief  Reads the FLASH at the specified address to the given buffer.
  * @param1 [in/out] gpio  Holds MCU gpio parameters
