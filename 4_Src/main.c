@@ -41,7 +41,6 @@ int main(void)
 		/*SYSTICK_Delay(1000);
 		GPIOA->ODR ^= 1<<5;*/
 
-
 		#if (ONE_WIRE == 1)
 		/* TEST 1 */
 			Ds18b20_Is_Connected();
