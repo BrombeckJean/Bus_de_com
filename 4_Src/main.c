@@ -11,6 +11,8 @@
 ONEWIRE_PINOUT	PINOUT;
 
 //----------------- MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ MAIN -----------------------------------------------------------*/
+/* @brief  This function is the first function of the program
+ * @retval None */
 int main(void)
 {
 
@@ -25,16 +27,16 @@ int main(void)
 	SYSTICK_Init();
 	DWT_Init();
 	TIM2TICK_Init();
+
 #if (ONE_WIRE > 0)
 	Ds18b20_Init(GPIOA,1);
 #endif
 #if (ONE_WIRE == 3)
-	Ds18b20_Set_Seuil_Alarm(TH,TL);
+	Ds18b20_Set_Threshold_Alarm(TH,TL);
 #endif
 #if (ONE_WIRE == 2 | (ONE_WIRE == 3) )
-	Ds18b20_affiche_temp();
+	Ds18b20_Dysplay_Temp();
 #endif
-
 
 	while(1)
 	{
@@ -48,12 +50,13 @@ int main(void)
 
 		/* TEST 2*/
 		#if (ONE_WIRE == 2)
-			Ds18b20_affiche_temp_min();
+			Ds18b20_Dysplay_Temp_Min();
 		#endif
 
 		/* TEST 3*/
 		#if (ONE_WIRE == 3)
-			Ds18b20_is_alarmed (TH, TL);
+			Ds18b20_Is_Threshold_Alarm (TH, TL);
 		#endif
 	}
+return 0;
 }

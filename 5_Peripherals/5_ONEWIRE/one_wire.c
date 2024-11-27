@@ -7,19 +7,22 @@
 #include "one_wire.h"
 
 //----------------- ONEWIRE RESET --------------------------------------------------------------------------- ONEWIRE RESET --------------------------------------------------*/
+/* @brief  Reset Process for the OneWire protocol
+ * @param1 [in]  oneWire_Pinout  Structure contain the GPIO and the Pin used
+ * @retval [out] reset_status 	 The value of the GPIO PIN used */
 uint8_t ONEWIRE_Reset(ONEWIRE_PINOUT oneWire_Pinout)
 {
     uint8_t reset_status = 0;
 
- /* Niveau de tension bas */
+ /* Low voltage level*/
     GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(480);
 
- /* Niveau de tension haut */
+ /* High voltage level */
     GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(70);
 
- /* Lecture du niveau */
+ /* Level reading */
     reset_status = GPIO_Read_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(410);
 
@@ -27,30 +30,40 @@ uint8_t ONEWIRE_Reset(ONEWIRE_PINOUT oneWire_Pinout)
 }
 
 //----------------- ONEWIRE WRITE BIT 0 --------------------------------------------------------------------- ONEWIRE WRITE BIT 0 --------------------------------------------*/
+/* @brief  Zero bit writing process for OneWire protocol
+ * @param1 [in]  oneWire_Pinout  Structure contain the GPIO and the Pin used
+ * @retval None */
 void ONEWIRE_WriteBit0(ONEWIRE_PINOUT oneWire_Pinout)
 {
- /* Niveau de tension bas */
+ /* Low voltage level */
     GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(60);
 
- /* Niveau de tension haut */
+ /* High voltage level */
     GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(10);
 }
 
 //----------------- ONEWIRE WRITE BIT 1 --------------------------------------------------------------------- ONEWIRE WRITE BIT 1 --------------------------------------------*/
+/* @brief  Bit writing process for OneWire protocol
+ * @param1 [in]  oneWire_Pinout  Structure contain the GPIO and the Pin used
+ * @retval None */
 void ONEWIRE_WriteBit1(ONEWIRE_PINOUT oneWire_Pinout)
 {
- /* Niveau de tension bas */
+ /* Low voltage level */
     GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(6);
 
- /* Niveau de tension haut */
+ /* High voltage level */
     GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(64);
 }
 
 //----------------- ONEWIRE WRITE BYTE ---------------------------------------------------------------------- ONEWIRE WRITE BYTE ---------------------------------------------*/
+/* @brief  Write a byte in OneWire
+ * @param1 [in]  oneWire_Pinout  Structure contain the GPIO and the Pin used
+ * @param2 [in]  data			 Data you want transmit
+ * @retval None */
 void ONEWIRE_WriteByte(ONEWIRE_PINOUT oneWire_Pinout, uint8_t data)
 {
     for(int i = 0; i < 8; i++)
@@ -65,35 +78,41 @@ void ONEWIRE_WriteByte(ONEWIRE_PINOUT oneWire_Pinout, uint8_t data)
 }
 
 //----------------- ONEWIRE READ BIT ------------------------------------------------------------------------ ONEWIRE READ BIT -----------------------------------------------*/
+/* @brief  Bit reading process for OneWire protocol
+ * @param1 [in]  oneWire_Pinout  Structure contain the GPIO and the Pin used
+ * @retval [out] data			 bit received */
 uint8_t ONEWIRE_ReadBit(ONEWIRE_PINOUT oneWire_Pinout)
 {
-    uint8_t value = 0;
+    uint8_t data = 0;
 
- /* Niveau de tension bas */
+ /* Low voltage level */
     GPIO_Reset_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(6);
 
- /* Niveau de tension haut */
+ /* High voltage level */
     GPIO_Set_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(9);
 
-    /* Lecture du niveau */
-    value = GPIO_Read_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
+    /* Level reading */
+    data = GPIO_Read_Pin(oneWire_Pinout.port, oneWire_Pinout.pin);
     DWT_Delay(55);
 
-    return value;
+    return data;
 }
 
 //----------------- ONEWIRE READ BYTE ----------------------------------------------------------------------- ONEWIRE READ BYTE ----------------------------------------------*/
+/* @brief  Read a byte in OneWire
+ * @param1 [in]  oneWire_Pinout  Structure contain the GPIO and the Pin used
+ * @retval [out] data			 Byte received */
 uint8_t ONEWIRE_ReadByte(ONEWIRE_PINOUT oneWire_Pinout)
 {
-    uint8_t value = 0;
+    uint8_t data = 0;
 
     for(int i = 0; i < 8; i++)
     {
-         value |= (ONEWIRE_ReadBit(oneWire_Pinout)<<i);
+    	data |= (ONEWIRE_ReadBit(oneWire_Pinout)<<i);
     }
-    return value;
+    return data;
 }
 
 

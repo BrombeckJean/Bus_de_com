@@ -10,11 +10,12 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include 6_Startup/subdir.mk
--include 5_Peripherals/Usart/subdir.mk
--include 5_Peripherals/Timer/subdir.mk
--include 5_Peripherals/ONEWIRE/subdir.mk
--include 5_Peripherals/Gpio/subdir.mk
--include 5_Peripherals/Devices/DS18B20_OneWire/subdir.mk
+-include 5_Peripherals/6_SPI/subdir.mk
+-include 5_Peripherals/5_ONEWIRE/subdir.mk
+-include 5_Peripherals/4_Usart/subdir.mk
+-include 5_Peripherals/3_Timer/subdir.mk
+-include 5_Peripherals/2_Gpio/subdir.mk
+-include 5_Peripherals/1_Devices/DS18B20_OneWire/subdir.mk
 -include 4_Src/subdir.mk
 -include objects.mk
 
