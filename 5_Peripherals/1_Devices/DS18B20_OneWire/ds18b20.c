@@ -7,7 +7,7 @@
 #include "ds18b20.h"
 
 //----------------- GLOBAL CONSTANTS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GLOBAL CONSTANTS -----------------------------------------------*/
-extern ONEWIRE_PINOUT	PINOUT;
+extern ONEWIRE_PINOUT	PINOUT_1WIRE;
 uint8_t Flag = 0;
 
 //----------------- GLOBAL FUNCTIONS DEFINITION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GLOBAL FUNCTIONS DEFINITION ------------------------------------*/
@@ -18,8 +18,8 @@ uint8_t Flag = 0;
  * @retval None */
 void Ds18b20_Init(GPIO_TypeDef * GPIOX, uint8_t pin)
 {
-	PINOUT.port  = GPIOX;
-	PINOUT.pin   = pin;
+	PINOUT_1WIRE.port  = GPIOX;
+	PINOUT_1WIRE.pin   = pin;
 	Ds18b20_Is_Connected();
 }
 
@@ -30,7 +30,7 @@ uint8_t Ds18b20_Is_Connected(void)
 {
 	uint8_t val = 1;
 
-    val = ONEWIRE_Reset(PINOUT);
+    val = ONEWIRE_Reset(PINOUT_1WIRE);
 
     if (val == 0)
     {
@@ -50,17 +50,17 @@ uint8_t Ds18b20_Is_Connected(void)
  * @retval None */
 void Ds18b20_Scratchpad(uint8_t Tab_val[9])
 {
-    ONEWIRE_Reset(PINOUT);
-    ONEWIRE_WriteByte(PINOUT,0xCC);
-    ONEWIRE_WriteByte(PINOUT,0x44);
+    ONEWIRE_Reset(PINOUT_1WIRE);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xCC);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0x44);
     SYSTICK_Delay(10);
 
-    ONEWIRE_Reset(PINOUT);
-    ONEWIRE_WriteByte(PINOUT,0xCC);
-    ONEWIRE_WriteByte(PINOUT,0xBE);
+    ONEWIRE_Reset(PINOUT_1WIRE);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xCC);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xBE);
     for(int i = 0; i < 8; i++)
     {
-    	Tab_val[i] = ONEWIRE_ReadByte (PINOUT);
+    	Tab_val[i] = ONEWIRE_ReadByte (PINOUT_1WIRE);
     }
 }
 
@@ -74,27 +74,27 @@ void Ds18b20_Set_Threshold_Alarm(uint8_t high_threshold, uint8_t low_threshold)
 	uint8_t Tab_vals[9] ={0};
 
 	/* Send the configuration*/
-    ONEWIRE_Reset(PINOUT);
-    ONEWIRE_WriteByte(PINOUT,0xCC);
-    ONEWIRE_WriteByte(PINOUT,0x4E);
-    ONEWIRE_WriteByte(PINOUT,high_threshold);
-    ONEWIRE_WriteByte(PINOUT,low_threshold);
-    ONEWIRE_WriteByte(PINOUT,0x7F);
+    ONEWIRE_Reset(PINOUT_1WIRE);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xCC);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0x4E);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,high_threshold);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,low_threshold);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0x7F);
     SYSTICK_Delay(10);
 
     /* Read the Scratchpad */
-    ONEWIRE_Reset(PINOUT);
-    ONEWIRE_WriteByte(PINOUT,0xCC);
-    ONEWIRE_WriteByte(PINOUT,0xBE);
+    ONEWIRE_Reset(PINOUT_1WIRE);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xCC);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xBE);
     for(int i = 0; i < 8; i++)
     {
-    	Tab_vals[i] = ONEWIRE_ReadByte (PINOUT);
+    	Tab_vals[i] = ONEWIRE_ReadByte (PINOUT_1WIRE);
     }
 
     /* Load the configuration in ROM */
-    ONEWIRE_Reset(PINOUT);
-    ONEWIRE_WriteByte(PINOUT,0xCC);
-    ONEWIRE_WriteByte(PINOUT,0x48);
+    ONEWIRE_Reset(PINOUT_1WIRE);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xCC);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0x48);
     SYSTICK_Delay(10);
 
     printf("Alarm set TH = %d deg LH = %d deg \r\n",Tab_vals[2],Tab_vals[3]);
@@ -106,13 +106,13 @@ void Ds18b20_Set_Threshold_Alarm(uint8_t high_threshold, uint8_t low_threshold)
  * @retval None */
 void Ds18b20_Reg_Threshold_Alarm(uint8_t Tab_val[9])
 {
-	ONEWIRE_Reset(PINOUT);
-    ONEWIRE_WriteByte(PINOUT,0xEC);
+	ONEWIRE_Reset(PINOUT_1WIRE);
+    ONEWIRE_WriteByte(PINOUT_1WIRE,0xEC);
     SYSTICK_Delay(100);
 
     for(int i = 0; i < 8; i++)
     {
-    	Tab_val[i] = ONEWIRE_ReadByte (PINOUT);
+    	Tab_val[i] = ONEWIRE_ReadByte (PINOUT_1WIRE);
     }
 }
 

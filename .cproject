@@ -43,6 +43,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/5_ONEWIRE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/6_SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/DS18B20_OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/SX1272_SPI}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1319158205" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -67,6 +68,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/5_ONEWIRE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/6_SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/DS18B20_OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/SX1272_SPI}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.465808169" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -151,6 +153,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/5_ONEWIRE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/6_SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/DS18B20_OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/SX1272_SPI}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.709035368" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -182,6 +185,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/5_ONEWIRE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/6_SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/DS18B20_OneWire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/5_Peripherals/1_Devices/SX1272_SPI}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1343014288" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

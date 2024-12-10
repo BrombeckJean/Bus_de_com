@@ -10,7 +10,11 @@
 //----------------- GLOBAL DEFINE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GLOBAL DEFINE --------------------------------------------------*/
 // value equal a test so Test_3 = 3
 #define ONE_WIRE  	0 /* Only 3 test */
-#define SPI  		1
+#define SPI  		2
+#if 	SPI>1
+#define TRANSMIT	0
+#define RECEIVE		1
+#endif
 
 //----------------- END SPECIAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ END SPECIAL DEFINE ---------------------------------------------*/
 #endif /* OPTION_COMP_H_ */

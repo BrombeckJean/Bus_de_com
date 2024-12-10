@@ -30,23 +30,24 @@ void Spi_Reset_Nss(SPI_PINOUT Spi_Pinout)
  * @param1 [in]  spix  Holds MCU SPI parameters
  * @param2 [in]  data  Byte you want transmit
  * @retval None */
-void Spi_Transmit(SPI_TypeDef spix ,uint8_t data)
+void Spi_Transmit(SPI_TypeDef* spix ,uint8_t data)
 {
-	while((spix.SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
-	spix.DR = data;
+	while(!(spix->SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
+	spix->DR = data;
+	while(!((spix->SR & 1<<SPI_SR_RXNE_Pos)>>SPI_SR_RXNE_Pos));
 }
 
 //------------------ RECIVE --------------------------------------------------------------------------------- RECIVE ---------------------------------------------------------*/
 /* @brief  Put an empty value in the DR register for send data on the SPI and read the DR register for get the data
  * @param1 [in]  spix  Holds MCU SPI parameters
  * @retval The data receive */
-uint8_t Spi_Receive(SPI_TypeDef spix)
+uint8_t Spi_Receive(SPI_TypeDef* spix)
 {
-	while((spix.SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
-	spix.DR = 0xFF;
+	while(!(spix->SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
+	spix->DR = 0xFF;
 
-	while((spix.SR & 1<<SPI_SR_RXNE_Pos)>>SPI_SR_RXNE_Pos);
-	return spix.DR;
+	while(!((spix->SR & 1<<SPI_SR_RXNE_Pos)>>SPI_SR_RXNE_Pos));
+	return spix->DR;
 }
 
 //------------------ TRANSMIT RECIVE ------------------------------------------------------------------------ TRANSMIT RECIVE ------------------------------------------------*/
@@ -54,13 +55,15 @@ uint8_t Spi_Receive(SPI_TypeDef spix)
  * @param1 [in]  spix  Holds MCU SPI parameters
  * @param2 [in]  data  Byte you want transmit
  * @retval The data receive */
-uint8_t Spi_Transmit_Recive(SPI_TypeDef spix, uint8_t data)
+uint8_t Spi_Transmit_Recive(SPI_TypeDef* spix, uint8_t data)
 {
-	while((spix.SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
-	spix.DR = data;
+	//while(!(spix->SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
+	while (!(spix->SR & SPI_SR_TXE));
+	spix->DR = data;
 
-	while((spix.SR & 1<<SPI_SR_RXNE_Pos)>>SPI_SR_RXNE_Pos);
-	return spix.DR;
+	//while(!((spix->SR & 1<<SPI_SR_RXNE_Pos)>>SPI_SR_RXNE_Pos));
+	while (!(spix->SR & SPI_SR_RXNE));
+	return spix->DR;
 }
 
 //------------------ SPI WRITE REG -------------------------------------------------------------------------- SPI WRITE REG --------------------------------------------------*/
@@ -70,14 +73,14 @@ uint8_t Spi_Transmit_Recive(SPI_TypeDef spix, uint8_t data)
  * @param1 [in]  reg  		  Value of the register you want write
  * @param2 [in]  data  		  Data you want write
  * @retval None */
-void Spi_Write_Reg (SPI_PINOUT Spi_Pinout, SPI_TypeDef spix, uint8_t reg, uint8_t data)
+void Spi_Write_Reg (SPI_PINOUT Spi_Pinout, SPI_TypeDef* spix, uint8_t reg, uint8_t data)
 {
 	/* Sets the high-order bit to 1 */
-    reg |= 1<<SPI_W_R_BIT_MASK;
+    reg |= (1<<SPI_W_R_BIT_MASK);
 
 	Spi_Reset_Nss(Spi_Pinout);
-	Spi_Transmit(spix, reg);
-	Spi_Transmit(spix, data);
+	Spi_Transmit_Recive(spix, reg);
+	Spi_Transmit_Recive(spix, data);
 	Spi_Set_Nss(Spi_Pinout);
 }
 
@@ -87,15 +90,15 @@ void Spi_Write_Reg (SPI_PINOUT Spi_Pinout, SPI_TypeDef spix, uint8_t reg, uint8_
  * @param2 [in]  spix  		  Holds MCU SPI parameters
  * @param1 [in]  reg  		  Value of the register you want read
  * @retval [out] data		  Data you want read */
-uint8_t Spi_Read_Reg (SPI_PINOUT Spi_Pinout, SPI_TypeDef spix, uint8_t reg)
+uint8_t Spi_Read_Reg (SPI_PINOUT Spi_Pinout, SPI_TypeDef* spix, uint8_t reg)
 {
 	uint8_t data = 0;
 	/* Sets the high-order bit to 0 */
 	reg &= ~(1<<SPI_W_R_BIT_MASK);
 
 	Spi_Reset_Nss(Spi_Pinout);
-	Spi_Transmit(spix,reg);
-	data = Spi_Receive(spix);
+	Spi_Transmit_Recive(spix,reg);
+	data = Spi_Transmit_Recive(spix,0xff);
 	Spi_Set_Nss(Spi_Pinout);
 
 	return data;
