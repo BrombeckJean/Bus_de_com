@@ -72,13 +72,26 @@ int main(void)
 			Sx1272_Is_Connected();
 		#endif
 
-		#if RECEIVE
-			Sx1272_Receive();
+		#if (SPI == 2)
+			#if RECEIVE
+				Sx1272_Receive();
+			#endif
+
+			#if TRANSMIT
+				Sx1272_Send(buffTX,4);
+				SYSTICK_Delay(500);
+			#endif
 		#endif
 
-		#if TRANSMIT
-			Sx1272_Send(buffTX,4);
-			SYSTICK_Delay(500);
+		#if (SPI == 3)
+			#if RECEIVE
+				Sx1272_Receive();
+			#endif
+
+			#if TRANSMIT
+				Sx1272_Send(buffTX,4);
+				SYSTICK_Delay(500);
+			#endif
 		#endif
 	}
 return 0;

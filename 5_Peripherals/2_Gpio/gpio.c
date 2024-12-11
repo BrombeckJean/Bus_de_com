@@ -35,10 +35,10 @@ void GPIO_Init(void){
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 
 	/* Alternate functions */
-	GPIOA->MODER |= 1 << 11;  // PA5 11
-	GPIOA->MODER |= 1 << 13;  // PA6 13
-	GPIOA->MODER |= 1 << 15;  // PA7 15
-	GPIOB->MODER |= 1 << 12;  // PB6 12
+	GPIOA->MODER |= 1 << 11;  // PA5 11 Clock
+	GPIOA->MODER |= 1 << 13;  // PA6 13 Miso
+	GPIOA->MODER |= 1 << 15;  // PA7 15 Mosi
+	GPIOB->MODER |= 1 << 12;  // PB6 12 Cs
 
 	/* HIGH Speed mode */
 	GPIOA->OSPEEDR |= 3<<10;  // PA5
@@ -50,11 +50,6 @@ void GPIO_Init(void){
 	GPIOA->AFR[0] |= 5<<24;  // PA6
 	GPIOA->AFR[0] |= 5<<28;  // PA7
 	RCC->APB2ENR |= (1<<12);  // Enable SPI1 CLock
-
-	/*SPI1->CR1 |= 1<<6;
-	SPI1->CR1 |= 4<<3;
-	SPI1->CR1 |= (1<<8) | (1<<9);   // SSM=1, SSi=1 -> Software Slave Management
-	SPI1->CR1 |= (1<<2);  			// Master Mode*/
 #endif
 }
 
