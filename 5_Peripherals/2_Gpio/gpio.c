@@ -51,10 +51,10 @@ void GPIO_Init(void){
 	GPIOA->AFR[0] |= 5<<28;  // PA7
 	RCC->APB2ENR |= (1<<12);  // Enable SPI1 CLock
 
-	SPI1->CR1 |= 1<<6;
+	/*SPI1->CR1 |= 1<<6;
 	SPI1->CR1 |= 4<<3;
 	SPI1->CR1 |= (1<<8) | (1<<9);   // SSM=1, SSi=1 -> Software Slave Management
-	SPI1->CR1 |= (1<<2);  			// Master Mode
+	SPI1->CR1 |= (1<<2);  			// Master Mode*/
 #endif
 }
 

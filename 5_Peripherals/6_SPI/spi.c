@@ -3,10 +3,27 @@
  * @brief          : Contain all the function for use SPI
  ********************************************************************************/
 
-//------------------ INCLUDE -------------------------------------------------------------------------------- INCLUDE --------------------------------------------------------*/
+//----------------- INCLUDE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ INCLUDE --------------------------------------------------------*/
 #include "spi.h"
 
-//------------------ GLOBAL FUNCTIONS DEFINITION ------------------------------------------------------------ GLOBAL FUNCTIONS DEFINITION ------------------------------------*/
+//------------------ SPI INIT ------------------------------------------------------------------------------- SPI INIT -------------------------------------------------------*/
+/* @brief  Initialise all the SPI parameters
+ * @retval None */
+void SPI_Init(void){
+ /* Clock Activation */
+    RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
+
+ /* CR1 Register Configuration */
+    SPI1->CR1 = 0;								// Reset ALL Values
+    SPI1->CR1 |= SPI_CR1_MSTR;  				// Mode mSaster
+    SPI1->CR1 |= SPI_CR1_BR_1 | SPI_CR1_BR_0; 	// Prediv16
+    SPI1->CR1 &= ~(SPI_CR1_CPOL); 				// Clock Polarity 0
+    SPI1->CR1 &= ~(SPI_CR1_CPHA); 				// Clock Phase 0
+    SPI1->CR1 |= SPI_CR1_SSM;					// Enable Software Slave Management
+    SPI1->CR1 |= SPI_CR1_SSI;					// Internal Slave Select */
+    SPI1->CR1 |= SPI_CR1_SPE;					// SPI Enable */
+}
+
 //------------------ SPI SET NSS ---------------------------------------------------------------------------- SPI SET NSS ----------------------------------------------------*/
 /* @brief  Set the NSS of the SPI for end a transmission
  * @param1 [in]  Spi_Pinout  Structure contain the GPIO and the Pin used
@@ -57,11 +74,9 @@ uint8_t Spi_Receive(SPI_TypeDef* spix)
  * @retval The data receive */
 uint8_t Spi_Transmit_Recive(SPI_TypeDef* spix, uint8_t data)
 {
-	//while(!(spix->SR & 1<<SPI_SR_TXE_Pos)>>SPI_SR_TXE_Pos);
 	while (!(spix->SR & SPI_SR_TXE));
 	spix->DR = data;
 
-	//while(!((spix->SR & 1<<SPI_SR_RXNE_Pos)>>SPI_SR_RXNE_Pos));
 	while (!(spix->SR & SPI_SR_RXNE));
 	return spix->DR;
 }

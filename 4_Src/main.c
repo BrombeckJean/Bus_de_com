@@ -37,9 +37,14 @@ int main(void)
 #endif
 
 #if (SPI > 0)
+	SPI_Init();
 	Sx1272_Init(GPIOB,6);
 	Sx1272_Conf();
 	Sx1272_Check_Conf();
+#endif
+
+#if TRANSMIT
+	uint8_t buffTX[4] = {0xCA, 0xFE, 0xCA, 0xFE};
 #endif
 
 	while(1)
@@ -72,8 +77,8 @@ int main(void)
 		#endif
 
 		#if TRANSMIT
-			Sx1272_Send();
-			SYSTICK_Delay(1000);
+			Sx1272_Send(buffTX,4);
+			SYSTICK_Delay(500);
 		#endif
 	}
 return 0;

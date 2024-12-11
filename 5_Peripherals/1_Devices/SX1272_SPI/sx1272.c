@@ -32,7 +32,7 @@ void Sx1272_Is_Connected(void)
 	Spi_Transmit_Recive(SPI1, 0x42);
 	uint8_t data = Spi_Receive(SPI1);
 	Spi_Set_Nss(PINOUT_SPI);
-	printf("data = %x \r\n",data);
+	printf("data = %x \r\n\n",data);
 }
 
 //----------------- SX1272 CONF --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
@@ -40,16 +40,26 @@ void Sx1272_Is_Connected(void)
  * @retval None */
 void Sx1272_Conf(void)
 {
-	/* Standby Mode */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x81);
+	/* Mode Init */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x00); /* Sleep Mode */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x80); /* Lora type */
 
-	/* Frequency */
+	/* Frequency  868.1 MHz */
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x06, 0xD9);
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x07, 0x06);
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x08, 0x66);
 
-	/* Reset All Irq */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0xFF);
+	/* LoRa Parameters */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1D, 0x72); // BW = 125 kHz, Coding Rate = 4/5
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1E, 0x74); // SF12
+
+    /* FIFO Configuration */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0E, 0x80); // TX
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0F, 0x00); // RX
+
+	/* Others Parameters */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x09, 0x88); // Output Power
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x11, 0x8F); // Irq Masked
 }
 
 //----------------- SX1272 CONF --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
@@ -57,58 +67,77 @@ void Sx1272_Conf(void)
  * @retval None */
 void Sx1272_Check_Conf(void)
 {
-	uint8_t RegOpMode   	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x01);
-	uint8_t RegFrfMsb   	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x06);
-	uint8_t RegFrfMid   	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x07);
-	uint8_t RegFrfLsb		= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x08);
-	uint8_t RegIrqFlagsMask = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x11);
-	uint8_t irqreg 			= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x12);
+	uint8_t RegOpMode   		= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x01);
+	uint8_t RegFrfMsb   		= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x06);
+	uint8_t RegFrfMid   		= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x07);
+	uint8_t RegFrfLsb			= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x08);
+	uint8_t RegModemConfig1   	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x1D);
+	uint8_t RegModemConfig2   	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x1E);
+	uint8_t RegFifoTxBaseAddr   = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x0E);
+	uint8_t RegFifoRxBaseAddr	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x0F);
+	uint8_t RegPaConfig 		= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x09);
+	uint8_t RegIrqFlagsMask 	= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x11);
+	uint8_t irqreg 				= Spi_Read_Reg(PINOUT_SPI, SPI1, 0x12);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x01); // Standby Mode
+
 
 	printf("Sx1272 Configuration :\r\n");
-	printf(" - RegOpMode (0x01) = %x\r\n", RegOpMode);
-	printf(" - RegFrfMsb (0x06) = %x\r\n", RegFrfMsb);
-	printf(" - RegFrfMid (0x07) = %x\r\n", RegFrfMid);
-	printf(" - RegFrfLsb (0x08) = %x\r\n", RegFrfLsb);
-	printf(" - RegIrqFlagsMask (0x11) = %x\r\n", RegIrqFlagsMask);
-	printf(" - RegIrqFlags (0x12) = %x\r\n", irqreg);
+	printf(" - RegOpMode (0x01) 	  	= 0x%x\r\n", RegOpMode   		);
+	printf(" - RegFrfMsb (0x06) 	  	= 0x%x\r\n", RegFrfMsb   		);
+	printf(" - RegFrfMid (0x07) 	  	= 0x%x\r\n", RegFrfMid   		);
+	printf(" - RegFrfLsb (0x08) 	  	= 0x%x\r\n", RegFrfLsb		);
+	printf(" - RegModemConfig1 (0x1D)	= 0x%x\r\n", RegModemConfig1  );
+	printf(" - RegModemConfig2 (0x1E)	= 0x%x\r\n", RegModemConfig2  );
+	printf(" - RegFifoTxBaseAddr (0x0E)	= 0x%x\r\n", RegFifoTxBaseAddr);
+	printf(" - RegFifoRxBaseAddr (0x0F)	= 0x%x\r\n", RegFifoRxBaseAddr);
+	printf(" - RegPaConfig (0x09) 	  	= 0x%x\r\n", RegPaConfig 		);
+	printf(" - RegIrqFlagsMask (0x11)		= 0x%x\r\n", RegIrqFlagsMask 	);
+	printf(" - irqreg (0x12) 		= 0x%x\r\n\n", irqreg			);
 }
 
 //----------------- SX1272 SEND --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
 /* @brief  Send the data you want to transmit in LoRa on the SPI
  * @retval None */
-void Sx1272_Send(void)
+void Sx1272_Send(uint8_t* data, uint8_t size)
 {
+	/* Initialise FIFO TX */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0E, 0x80);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0D, 0x80);
+
 	/* Payload Length */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x22, 0x01);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x22, size);
 
-	/* FIFO */
-    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0E, 0x80);
-    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0D, 0x80);
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x00, 0x24); // data
-
-	/* activate Irq TX Done */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x11, 0xF7); // mask other irq
+    /* Put Data In FIFO TX */
+    for (uint8_t i = 0; i < size; i++) {
+    	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x80, data[i]);
+    }
 
 	/* Mode TX */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x83);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x03);
 
-    /* TX Done ? */
+    /* TX Done ? *//*
     while ((Spi_Read_Reg(PINOUT_SPI, SPI1, 0x12) & 0x08) == 0);
-    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0x08); // reset txdone
+    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0xFF); // Reset Irq*/
+
+	printf("Message Transmit : ");
+	for (int i = 0; i < size; i++) {
+	  printf("0x%x ",data[i]);
+	}
+	printf("\r\n\n");
 }
 
 //----------------- SX1272 RECEIVE --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
-/* @brief  Send on SPI the configuration for a LoRa transmission
+/* @brief  Send on SPI the configuration for a LoRa reception and read data
  * @retval None */
 void Sx1272_Receive(void)
 {
-	/* Activate Irq TX Done */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x11, 0xBF); // mask other irq
+	/* Initialise FIFO RX */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0F, 0x80);
 
-	/* Mode RX */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x85);
+	/* Mode RX Continue */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x05);
 
-	/* TX Done ? */
+	/* RX Done ? */
 	while ((Spi_Read_Reg(PINOUT_SPI, SPI1, 0x12) & 0x40) == 0);
 	uint8_t rxLength = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x13);
 	uint8_t fifoAddr = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x10);
@@ -116,14 +145,14 @@ void Sx1272_Receive(void)
 
 	uint8_t rxBuffer[rxLength];
 	for (uint8_t i = 0; i < rxLength; i++) {
-	    rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00); // Lire FIFO
+	    rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00);
 	}
 
 	printf("Message received : ");
-	for (int i = 0; i < 8; i++) {
-	  printf("%d",(char)rxBuffer[i]);
+	for (int i = 0; i < rxLength; i++) {
+	  printf("0x%x ",rxBuffer[i]);
 	}
-	printf("\r\n");
+	printf("\r\n\n");
 
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0x40); // Effacer RxDone
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0xFF);  // Reset Irq
 }
