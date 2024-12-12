@@ -47,11 +47,11 @@ void Sx1272_Conf(void)
 	/* Frequency  868.1 MHz */
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x06, 0xD9);
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x07, 0x06);
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x08, 0x66);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x08, 0x8B);
 
 	/* LoRa Parameters */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1D, 0x72); // BW = 125 kHz, Coding Rate = 4/5
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1E, 0x74); // SF12
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1D, 0x0A); // BW = 125 kHz, Coding Rate = 4/5    mdt 72
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1E, 0x70); // SF12
 
     /* FIFO Configuration */
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0E, 0x80); // TX
@@ -60,6 +60,9 @@ void Sx1272_Conf(void)
 	/* Others Parameters */
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x09, 0x88); // Output Power
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x11, 0x8F); // Irq Masked
+
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x39, 0x34); // Irq Masked
+	//Spi_Write_Reg(PINOUT_SPI, SPI1, 0x33, 0x01); // Irq Masked
 }
 
 //----------------- SX1272 CONF --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
@@ -167,7 +170,7 @@ void Sx1272_Send_Temp(void)
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0D, 0x80);
 
 	/* Payload Length */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x22, size);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x22, 2);
 
 	uint16_t temps =  Ds18b20_Dysplay_Temp();
 
@@ -177,8 +180,8 @@ void Sx1272_Send_Temp(void)
 	/* Mode TX */
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x03);
 
-	be_comma  = temps / 1000;
-	af_comma  = temps % 1000;
+	uint8_t be_comma  = temps / 1000;
+	uint8_t af_comma  = temps % 1000;
 	printf("temp transmit = %d,%d deg \r\n\n",be_comma, af_comma);
 }
 
@@ -205,8 +208,8 @@ void Sx1272_Receive_Temp(void)
 	}
 
 	uint16_t temp = rxBuffer[1]<<8 | rxBuffer[0];
-	be_comma  = temp / 1000;
-	af_comma  = temp % 1000;
+	uint8_t be_comma  = temp / 1000;
+	uint8_t af_comma  = temp % 1000;
 
 	printf("temp received = %d,%d deg \r\n\n",be_comma, af_comma);
 
