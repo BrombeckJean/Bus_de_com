@@ -47,6 +47,10 @@ int main(void)
 	uint8_t buffTX[4] = {0xCA, 0xFE, 0xCA, 0xFE};
 #endif
 
+#if RECEIVE
+	uint8_t buffRX[4] = {0};
+#endif
+
 	while(1)
 	{
 		/*SYSTICK_Delay(1000);
@@ -85,7 +89,7 @@ int main(void)
 
 		#if (SPI == 3)
 			#if RECEIVE
-				Sx1272_Receive();
+				Sx1272_Receive_Temp(buffRX);
 			#endif
 
 			#if TRANSMIT

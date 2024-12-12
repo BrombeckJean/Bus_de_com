@@ -145,7 +145,7 @@ void Sx1272_Receive(void)
 
 	uint8_t rxBuffer[rxLength];
 	for (uint8_t i = 0; i < rxLength; i++) {
-	    rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00);
+		rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00);
 	}
 
 	printf("Message received : ");
@@ -153,6 +153,62 @@ void Sx1272_Receive(void)
 	  printf("0x%x ",rxBuffer[i]);
 	}
 	printf("\r\n\n");
+
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0xFF);  // Reset Irq
+}
+
+//----------------- SX1272 SEND --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
+/* @brief  Send the data you want to transmit in LoRa on the SPI
+ * @retval None */
+void Sx1272_Send_Temp(void)
+{
+	/* Initialise FIFO TX */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0E, 0x80);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0D, 0x80);
+
+	/* Payload Length */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x22, size);
+
+	uint16_t temps =  Ds18b20_Dysplay_Temp();
+
+    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x80, (uint8_t) (temps>>8));
+    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x80, (uint8_t) temps);
+
+	/* Mode TX */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x03);
+
+	be_comma  = temps / 1000;
+	af_comma  = temps % 1000;
+	printf("temp transmit = %d,%d deg \r\n\n",be_comma, af_comma);
+}
+
+//----------------- SX1272 RECEIVE --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
+/* @brief  Send on SPI the configuration for a LoRa reception and read data
+ * @retval None */
+void Sx1272_Receive_Temp(void)
+{
+	/* Initialise FIFO RX */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0F, 0x80);
+
+	/* Mode RX Continue */
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x05);
+
+	/* RX Done ? */
+	while ((Spi_Read_Reg(PINOUT_SPI, SPI1, 0x12) & 0x40) == 0);
+	uint8_t rxLength = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x13);
+	uint8_t fifoAddr = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x10);
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x0D, fifoAddr);
+
+	uint8_t rxBuffer[rxLength];
+	for (uint8_t i = 0; i < rxLength; i++) {
+		rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00);
+	}
+
+	uint16_t temp = rxBuffer[1]<<8 | rxBuffer[0];
+	be_comma  = temp / 1000;
+	af_comma  = temp % 1000;
+
+	printf("temp received = %d,%d deg \r\n\n",be_comma, af_comma);
 
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0xFF);  // Reset Irq
 }
