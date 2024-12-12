@@ -90,7 +90,7 @@ int main(void)
 
 			#if TRANSMIT
 				Sx1272_Send_Temp();
-				SYSTICK_Delay(500);
+				SYSTICK_Delay(5000);
 			#endif
 		#endif
 	}

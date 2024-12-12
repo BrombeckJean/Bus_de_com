@@ -9,8 +9,8 @@
 
 //----------------- GLOBAL DEFINE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GLOBAL DEFINE --------------------------------------------------*/
 // the value is equal to the test numbers, so Test_1 = 1, Test_2 = 2, ect...
-#define ONE_WIRE  	0 /* Only 3 test */
-#define SPI  		2 /* Only 3 test */
+#define ONE_WIRE  	4 /* Only 3 test */
+#define SPI  		3 /* Only 3 test */
 #if 	SPI>1
 #define TRANSMIT	1
 #define RECEIVE		0

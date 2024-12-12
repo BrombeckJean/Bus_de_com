@@ -50,7 +50,7 @@ void Sx1272_Conf(void)
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x08, 0x8B);
 
 	/* LoRa Parameters */
-	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1D, 0x0A); // BW = 125 kHz, Coding Rate = 4/5    mdt 72
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1D, 0x0A); // BW = 125 kHz, Coding Rate = 4/5
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x1E, 0x70); // SF12
 
     /* FIFO Configuration */
@@ -62,7 +62,7 @@ void Sx1272_Conf(void)
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x11, 0x8F); // Irq Masked
 
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x39, 0x34); // Irq Masked
-	//Spi_Write_Reg(PINOUT_SPI, SPI1, 0x33, 0x01); // Irq Masked
+	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x33, 0x01); // Irq Masked
 }
 
 //----------------- SX1272 CONF --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
@@ -174,8 +174,8 @@ void Sx1272_Send_Temp(void)
 
 	uint16_t temps =  Ds18b20_Dysplay_Temp();
 
-    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x80, (uint8_t) (temps>>8));
     Spi_Write_Reg(PINOUT_SPI, SPI1, 0x80, (uint8_t) temps);
+    Spi_Write_Reg(PINOUT_SPI, SPI1, 0x80, (uint8_t) (temps>>8));
 
 	/* Mode TX */
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x01, 0x03);
@@ -206,8 +206,8 @@ void Sx1272_Receive_Temp(void)
 	for (uint8_t i = 0; i < rxLength; i++) {
 		rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00);
 	}
-
-	uint16_t temp = rxBuffer[1]<<8 | rxBuffer[0];
+	uint16_t temp = 0;
+	uint16_t temp = rxBuffer[0]<<8 | rxBuffer[1];
 	uint8_t be_comma  = temp / 1000;
 	uint8_t af_comma  = temp % 1000;
 
