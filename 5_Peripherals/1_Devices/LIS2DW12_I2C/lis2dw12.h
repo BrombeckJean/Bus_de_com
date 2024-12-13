@@ -1,17 +1,20 @@
 /********************************************************************************
-  * @file           : interrupt.h
-  * @brief          : All interrupt function
+  * @file           : lis2dw12.h
+  * @brief          : Captor Humidity and temperature
   *******************************************************************************/
 
 //----------------- SPECIAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ SPECIAL DEFINE -------------------------------------------------*/
-#ifndef INTERRUPT_H_
-#define INTERRUPT_H_
+#ifndef DEVICES_LIS2DW12_I2C_LIS2DW12_H_
+#define DEVICES_LIS2DW12_I2C_LIS2DW12_H_
+
+//------------------ INCLUDE -------------------------------------------------------------------------------- INCLUDE ----------------------------------------------------------*/
+#include "i2c.h"
+#include "usart.h"
 
 //----------------- PROTOTYPE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PROTOTYPE ------------------------------------------------------*/
-/* Timer IRQ */
-void SysTick_Handler(void);
-void TIM2_IRQHandler(void);
-void EXTI15_10_IRQHandler(void);
+void Lis2dw12_Is_Connected(void);
+void Lis2dw12_Print_Acc(void);
+void Lis2dw12_Conf(void);
 
 //----------------- END SPECIAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ END SPECIAL DEFINE ---------------------------------------------*/
-#endif
+#endif /* DEVICES_LIS2DW12_I2C_LIS2DW12_H_ */

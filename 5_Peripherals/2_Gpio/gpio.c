@@ -51,6 +51,36 @@ void GPIO_Init(void){
 	GPIOA->AFR[0] |= 5<<28;  // PA7
 	RCC->APB2ENR |= (1<<12);  // Enable SPI1 CLock
 #endif
+
+#if (I2C > 0)
+	/* I2C pin Clock Init */
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN | RCC_AHB1ENR_GPIOAEN;
+	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+
+	/* I2C Gpio Pin */
+	GPIOC->MODER |= INPUT_MODE	<< GPIO_MODER_MODER13_Pos;			// PC13 Input Push-Button
+	GPIOC->PUPDR |= GPIO_PUPDR_PUPDR13_0;       					// pull up
+	GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPDR13);      					// désactive la résistance de pull down
+
+	/* IRQ Activation */
+	SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI13_PC;
+	EXTI->IMR |= EXTI_IMR_MR13;
+	EXTI->FTSR |= EXTI_FTSR_TR13;
+	NVIC_SetPriority(EXTI15_10_IRQn, 1);
+	NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+	/* I2C SCL */
+	GPIOB->MODER  |= 2<<GPIO_MODER_MODER8_Pos;
+	GPIOB->AFR[1] |= 4<<0;
+	GPIOB->PUPDR |= 1<<16;
+	GPIOB->OTYPER |= 1<<8;
+
+	/* I2C SDA */
+	GPIOB->MODER  |= 2<<GPIO_MODER_MODER9_Pos;
+	GPIOB->AFR[1] |= 4<<4;
+	GPIOB->PUPDR |= 1<<18;
+	GPIOB->OTYPER |= 1<<9;
+#endif
 }
 
 //----------------- GPIO SET PIN ---------------------------------------------------------------------------- GPIO SETP IN ---------------------------------------------------*/

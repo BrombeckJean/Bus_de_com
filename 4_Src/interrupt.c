@@ -25,6 +25,7 @@
 extern uint32_t ticks;
 extern uint32_t ticks_tim2;
 extern uint8_t Flag;
+extern uint8_t push_button;
 
 //----------------- SYSTICK HANDLER +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ SYSTICK HANDLER ------------------------------------------------*/
 /* @brief  Go in this function when a SysTick timer IRQ are activate.
@@ -41,5 +42,18 @@ void TIM2_IRQHandler(void){
 		TIM2->SR &= ~TIM_SR_UIF;
 		Flag = 1;
 	}
+}
+
+//----------------- EXTI15 10 IRQ HANDLER +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ EXTI15 10 IRQ HANDLER ------------------------------------------*/
+/* @brief  Go in this function when a Timer 2 IRQ are activate.
+ * @retval None */
+void EXTI15_10_IRQHandler(void)
+{
+    if (EXTI->PR & EXTI_PR_PR13) // Vérifier si interruption de la broche PC13
+    {
+    	push_button = 1;
+
+        EXTI->PR |= EXTI_PR_PR13; // Réinitialisez le drapeau d'interruption
+    }
 }
 

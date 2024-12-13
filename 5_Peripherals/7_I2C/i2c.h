@@ -11,5 +11,11 @@
 #include "gpio.h"
 #include "timer.h"
 
+void I2C_Init(void);
+
+int ReadReg(uint8_t addr,uint8_t regR);
+void WriteReg(uint8_t addr,uint8_t regW,uint8_t data);
+void ReadRegExtend(uint8_t addr,uint8_t tab[2]);
+
 //----------------- END SPECIAL DEFINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ END SPECIAL DEFINE ---------------------------------------------*/
 #endif /* I2C_I2C_H_ */

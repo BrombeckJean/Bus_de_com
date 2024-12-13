@@ -20,8 +20,8 @@ void SPI_Init(void){
     SPI1->CR1 &= ~(SPI_CR1_CPOL); 				// Clock Polarity 0
     SPI1->CR1 &= ~(SPI_CR1_CPHA); 				// Clock Phase 0
     SPI1->CR1 |= SPI_CR1_SSM;					// Enable Software Slave Management
-    SPI1->CR1 |= SPI_CR1_SSI;					// Internal Slave Select */
-    SPI1->CR1 |= SPI_CR1_SPE;					// SPI Enable */
+    SPI1->CR1 |= SPI_CR1_SSI;					// Internal Slave Select
+    SPI1->CR1 |= SPI_CR1_SPE;					// SPI Enable
 }
 
 //------------------ SPI SET NSS ---------------------------------------------------------------------------- SPI SET NSS ----------------------------------------------------*/

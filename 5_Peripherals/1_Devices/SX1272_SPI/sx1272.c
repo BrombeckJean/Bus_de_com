@@ -35,7 +35,7 @@ void Sx1272_Is_Connected(void)
 	printf("data = %x \r\n\n",data);
 }
 
-//----------------- SX1272 CONF --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
+//----------------- SX1272 CONF ----------------------------------------------------------------------------- SX1272 CONF ----------------------------------------------------*/
 /* @brief  Send on SPI the configuration for a LoRa transmission
  * @retval None */
 void Sx1272_Conf(void)
@@ -65,7 +65,7 @@ void Sx1272_Conf(void)
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x33, 0x01); // Irq Masked
 }
 
-//----------------- SX1272 CONF --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
+//----------------- SX1272 CHECK CONF ----------------------------------------------------------------------- SX1272 CHECK CONF ----------------------------------------------*/
 /* @brief  Read registers and display registers value on UART
  * @retval None */
 void Sx1272_Check_Conf(void)
@@ -98,7 +98,7 @@ void Sx1272_Check_Conf(void)
 	printf(" - irqreg (0x12) 		= 0x%x\r\n\n", irqreg			);
 }
 
-//----------------- SX1272 SEND --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
+//----------------- SX1272 SEND ----------------------------------------------------------------------------- SX1272 SEND ----------------------------------------------------*/
 /* @brief  Send the data you want to transmit in LoRa on the SPI
  * @retval None */
 void Sx1272_Send(uint8_t* data, uint8_t size)
@@ -129,8 +129,8 @@ void Sx1272_Send(uint8_t* data, uint8_t size)
 	printf("\r\n\n");
 }
 
-//----------------- SX1272 RECEIVE --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
-/* @brief  Send on SPI the configuration for a LoRa reception and read data
+//----------------- SX1272 RECEIVE -------------------------------------------------------------------------- SX1272 RECEIVE -------------------------------------------------*/
+/* @brief  Configure the sx1272 in RX mode and display the value received
  * @retval None */
 void Sx1272_Receive(void)
 {
@@ -160,8 +160,8 @@ void Sx1272_Receive(void)
 	Spi_Write_Reg(PINOUT_SPI, SPI1, 0x12, 0xFF);  // Reset Irq
 }
 
-//----------------- SX1272 SEND --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
-/* @brief  Send the data you want to transmit in LoRa on the SPI
+//----------------- SX1272 SEND TEMP ------------------------------------------------------------------------ SX1272 SEND TEMP -----------------------------------------------*/
+/* @brief  Send the temperature in LoRa
  * @retval None */
 void Sx1272_Send_Temp(void)
 {
@@ -185,8 +185,8 @@ void Sx1272_Send_Temp(void)
 	printf("temp transmit = %d,%d deg \r\n\n",be_comma, af_comma);
 }
 
-//----------------- SX1272 RECEIVE --------------------------------------------------------------------- SX1272 IS CONNECTED --------------------------------------------*/
-/* @brief  Send on SPI the configuration for a LoRa reception and read data
+//----------------- SX1272 RECEIVE TEMP --------------------------------------------------------------------- SX1272 RECEIVE TEMP --------------------------------------------*/
+/* @brief  Configure the sx1272 in RX mode and display the value received
  * @retval None */
 void Sx1272_Receive_Temp(void)
 {
@@ -207,7 +207,7 @@ void Sx1272_Receive_Temp(void)
 		rxBuffer[i] = Spi_Read_Reg(PINOUT_SPI, SPI1, 0x00);
 	}
 	uint16_t temp = 0;
-	uint16_t temp = rxBuffer[0]<<8 | rxBuffer[1];
+	 temp = rxBuffer[0]<<8 | rxBuffer[1];
 	uint8_t be_comma  = temp / 1000;
 	uint8_t af_comma  = temp % 1000;
 
