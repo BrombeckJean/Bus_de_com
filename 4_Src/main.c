@@ -116,6 +116,7 @@ int main(void)
 				push_button=0;
 				printf("Button are push /!\\ \r\n");
 				Lis2dw12_Print_Acc();
+				Ds18b20_Dysplay_Temp();
 			}
 		#endif
 	}

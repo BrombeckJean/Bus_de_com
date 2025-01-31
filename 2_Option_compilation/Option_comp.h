@@ -10,8 +10,8 @@
 //----------------- GLOBAL DEFINE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GLOBAL DEFINE --------------------------------------------------*/
 // the value is equal to the test numbers, so Test_1 = 1, Test_2 = 2, ect...
 #define ONE_WIRE  	0 /* Only 3 test */
-#define SPI  		0 /* Only 3 test */
-#define I2C  		3 /* Only 3 test */
+#define SPI  		0 /* Only 3 test */   // ONE_WIRE 4 when SPI 3
+#define I2C  		0 /* Only 3 test */   // ONE_WIRE 4 when I2C 3
 #if 	SPI>1
 #define TRANSMIT	1
 #define RECEIVE		0
